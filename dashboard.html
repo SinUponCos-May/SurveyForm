@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+      <h2>Welcome, {loggedInUser.name}!</h2>
+        <form id="survey-form">
+          <div class="form-group">
+            <label id="name-label" for="name">Email: {loggedInUser.emailID}</label>
+          </div>
+          <div class="form-group">
+            <label id="email-label" for="email">Location: {loggedInUser.location}</label>
+          </div>
+          <div class="form-group">
+            <label id="number-label" for="number">DOB: {loggedInUser.dob}</label>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submit" class="submit-button">
+              Submit
+            </button>
+        </form>
+      </div>
+    </div>
+</div>
+</body>
+</html>

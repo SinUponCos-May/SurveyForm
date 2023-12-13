@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const baseURL = 'http://localhost:4000/api/user'; // Adjust the base API URL
+
+const App = () => {
+  const [users, setUsers] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [OTP, setOTP] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  useEffect(() => {
+    // Fetch all users on component mount
+    axios.get(${baseURL}/)
+      .then(response => {
+        setUsers(response.data);
+        console.log(response.data); // Log users here
+      })
+      .catch(error => console.error('Error fetching users:', error));
+  }, []);
+
+  const handleSelectUser = () => {
+    // Find the user based on phone number
+    const user = users.find(u => u.phoneNumber === phoneNumber);
+
+    if (!user) {
+      setLoginError('User not found');
+    } else {
+      setLoginError(''); // Reset login error
+      setSelectedUser(user);
+    }
+  };
+
+  const handleLogin = () => {
+    // Validate OTP (replace this with your actual validation logic)
+    if (validateOTP(selectedUser, OTP)) {
+      setLoggedInUser(selectedUser);
+    } else {
+      setLoginError('Invalid OTP');
+    }
+  };
+
+  // Function to validate OTP
+  const validateOTP = (user, enteredOTP) => {
+    // Replace this with your actual OTP validation logic
+    return user && user.OTP === enteredOTP;
+  };
+
+  return (
+    <div>
+      <h1>React App</h1>
+
+      {loggedInUser ? (
+        <div>
+          <h2>Welcome, {loggedInUser.name}!</h2>
+          <p>Email: {loggedInUser.emailID}</p>
+          <p>Location: {loggedInUser.location}</p>
+          {/* Add more user information as needed */}
+        </div>
+      ) : (
+        <div>
+          <h2>Login</h2>
+          <label>Phone Number:</label>
+          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+          <button onClick={handleSelectUser}>Select User</button>
+
+          {selectedUser && (
+            <>
+              <label>OTP:</label>
+              <input type="password" value={OTP} onChange={(e) => setOTP(e.target.value)} />
+              <button onClick={handleLogin}>Login</button>
+              <p style={{ color: 'red' }}>{loginError}</p>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+</body>
+</html>

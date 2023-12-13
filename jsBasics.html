@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Assignments</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <div class="container">
+    <h2>Javascipt Basics</h2>
+    <form id = "survery-form">
+        <div class="form-group">
+            <label id="number-label" for="name">Odd or even</label>
+            <input
+              type="number"
+              name="oddeven"
+              id="numberInp"
+              class="form-control"
+              placeholder="Enter a number">
+              <br>
+              <button onclick="checkNumber()" type="button" class="submit-button">Check</button>
+              <br>
+        </div>
+        <div class="form-group">
+            <label id="number-label" for="name">Guess the number between 1-10</label>
+            <input
+              type="number"
+              name="guess"
+              id="guessNum"
+              class="form-control"
+              placeholder="Enter your guess">
+              <br>
+              <button id="guessButton" onclick="checkGuess()" type="button" class="submit-button">Check</button>
+              <br>
+        </div>
+        <div class="form-group">
+            <button onclick="displayFruits()" type="button" class="submit-button">Show Favorite Fruits</button>
+            <ol id="fruitsList"></ol>
+        </div>
+    </form>
+</div> 
+<script>
+    function checkNumber() {
+    const numberInput = document.getElementById("numberInp");
+    const number = parseInt(numberInput.value);
+
+    if (isNaN(number)) {
+        window.alert("Please enter a valid number.");
+    } else {
+        if (number % 2 === 0) {
+            window.alert(number + " is even.");
+        } else {
+            window.alert(number + " is odd.");
+        }
+    }
+}
+
+const targetNumber = Math.floor(Math.random() * 10) + 1;
+
+let guesses = 0;
+const maxGuesses = 3;
+
+function checkGuess() {
+    const guessInput = document.getElementById("guessNum");
+    const guess = parseInt(guessInput.value);
+
+    if (isNaN(guess) || guess < 1 || guess > 10) {
+        window.alert("Please enter a valid number between 1 and 10.");
+        return;
+    }
+
+    guesses++;
+
+    if (guess === targetNumber) {
+        window.alert(`Congratulations! You guessed the number ${targetNumber} correctly in ${guesses} ${guesses === 1 ? "guess" : "guesses"}.`);
+        disableInputAndButton();
+    } else if (guesses === maxGuesses) {
+        window.alert(`Sorry, you've run out of guesses. The correct number was ${targetNumber}.`);
+        disableInputAndButton();
+    } else if (guess < targetNumber) {
+        window.alert("Your guess is too low.");
+    } else {
+        window.alert("Your guess is too high.");
+    }
+}
+
+function disableInputAndButton() {
+    const guessInput = document.getElementById("guessNum");
+    const guessButt = document.querySelector("guessButton");
+
+    guessInput.setAttribute("disabled", "true");
+    guessButt.setAttribute("disabled", "true");
+}
+
+const fruits= ["Pineapple","Watermelon","Mangoes"];
+
+function displayFruits() {
+    const fruitsList = document.getElementById("fruitsList");
+    fruitsList.innerHTML = "";
+    for (const fruit of fruits) {
+        const listItem = document.createElement("li");
+        listItem.textContent = fruit;
+        fruitsList.appendChild(listItem);
+    }
+}
+</script>
+</body>
+</html>
